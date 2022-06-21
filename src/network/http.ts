@@ -1,20 +1,13 @@
 import axios from 'axios';
 import cookies from 'js-cookie';
+import { AxiosOptions } from '../types/http';
 
 export default class HttpClient {
-  private readonly baseURL = process.env.NEXT_PUBLIC_API_HOST;
-
-  async axios(url: string, options: any) {
+  async axios(options: AxiosOptions) {
     const { data } = await axios({
-      url: `${this.baseURL}${url}`,
+      baseURL: process.env.NEXT_PUBLIC_API_HOST,
       ...options,
     });
-
-    if (data.status > 299 || data.status < 200) {
-      const message =
-        data && data.message ? data.message : 'Something went wrong!';
-      throw new Error(message);
-    }
 
     return data;
   }

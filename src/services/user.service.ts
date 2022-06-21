@@ -1,11 +1,16 @@
 import HttpClient from '../network/http';
 
 class UserService extends HttpClient {
+  constructor() {
+    super();
+  }
+
   async me() {
-    const data = await this.axios('/users/me', {
+    const data = await super.axios({
       method: 'get',
+      url: '/users/me',
       headers: {
-        Authorization: `Bearer ${this.getToken()}`,
+        Authorization: `Bearer ${super.getToken()}`,
       },
     });
 
@@ -13,8 +18,9 @@ class UserService extends HttpClient {
   }
 
   async read(id: number) {
-    const data = await this.axios(`/users/${id}`, {
+    const data = await super.axios({
       method: 'get',
+      url: `/users/${id}`,
     });
 
     return data;
