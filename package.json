@@ -11,6 +11,8 @@
   "dependencies": {
     "@emotion/babel-plugin": "^11.9.2",
     "@emotion/core": "^11.0.0",
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
     "axios": "^0.27.2",
     "babel-plugin-module-resolver": "^4.1.0",
     "js-cookie": "^3.0.1",
