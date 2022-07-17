@@ -1,17 +1,8 @@
-import { useQuery, UseQueryOptions, UseQueryResult } from 'react-query';
+import { useQuery } from 'react-query';
 
-type Request = (...args: any[]) => any;
+type Options = {
+  refetchInterval?: number;
+};
 
-type RequestOptions = UseQueryOptions;
-
-type Response<D = unknown, E = unknown> = UseQueryResult<D, E>;
-
-export const useRequest = (
-  request: Request,
-  { ...options }: RequestOptions
-): Response =>
-  useQuery({
-    queryKey: request.name,
-    queryFn: request,
-    ...options,
-  });
+export const useRequest = (request: () => {}, options?: Options) =>
+  useQuery(request.name, request, { ...options });
