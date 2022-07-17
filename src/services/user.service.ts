@@ -1,16 +1,22 @@
-import HttpClient from '../network/http';
+import { getAccessToken } from 'src/utils/token.util';
+import Service from './service';
 
-class UserService extends HttpClient {
+class UserService extends Service {
   constructor() {
     super();
   }
 
   async me() {
+    const accessToken = getAccessToken();
+    if (!accessToken) {
+      return;
+    }
+
     const data = await super.axios({
       method: 'get',
       url: '/users/me',
       headers: {
-        Authorization: `Bearer ${super.getToken()}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     });
 

@@ -1,21 +1,28 @@
+import Service from './service';
 import { SignupAgreements } from '../types/auth';
-import HttpClient from '../network/http';
+import { getRefreshToken, setAuthTokens } from 'src/utils/token.util';
 
-class AuthService extends HttpClient {
+class AuthService extends Service {
   constructor() {
     super();
   }
+
   /** refreshToken을 이용해 새로운 토큰을 발급받습니다. */
   async refresh() {
+    const refreshToken = getRefreshToken();
+    if (!refreshToken) {
+      return;
+    }
+
     const data = await super.axios({
       method: 'get',
       url: '/auth/refresh',
       headers: {
-        Authorization: `Bearer ${super.getToken()}`,
+        Authorization: `Bearer ${refreshToken}`,
       },
     });
 
-    super.setToken(data);
+    setAuthTokens(data.access, data.refresh);
   }
 
   /** 새로운 계정을 생성하고 토큰을 발급받습니다. */
@@ -32,7 +39,7 @@ class AuthService extends HttpClient {
       data: { email, password, name, phoneNumber, agreements },
     });
 
-    super.setToken(data);
+    setAuthTokens(data.acess, data.refresh);
   }
 
   /** 이미 생성된 계정의 토큰을 발급받습니다. */
@@ -43,7 +50,7 @@ class AuthService extends HttpClient {
       data: { email, password },
     });
 
-    super.setToken(data);
+    setAuthTokens(data.access, data.refresh);
   }
 }
 
