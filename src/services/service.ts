@@ -1,5 +1,13 @@
 import axios from 'axios';
-import { AxiosOptions } from '../types/http';
+
+type AxiosOptions = {
+  method: string;
+  url: string;
+  headers?: {
+    Authorization: string;
+  };
+  data?: object;
+};
 
 export default class Service {
   async axios(options: AxiosOptions) {
