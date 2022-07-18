@@ -1,4 +1,4 @@
-import { getAccessToken } from 'src/utils/token.util';
+import TokenProvider from '@utils/token.util';
 import Service from './service';
 
 class UserService extends Service {
@@ -7,16 +7,15 @@ class UserService extends Service {
   }
 
   async me() {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
+    if (!TokenProvider.hasExist('access')) {
       return;
     }
 
-    const data = await super.axios({
+    const { data } = await super.axios({
       method: 'get',
       url: '/users/me',
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${TokenProvider.get('access')}`,
       },
     });
 
@@ -24,7 +23,7 @@ class UserService extends Service {
   }
 
   async read(id: number) {
-    const data = await super.axios({
+    const { data } = await super.axios({
       method: 'get',
       url: `/users/${id}`,
     });

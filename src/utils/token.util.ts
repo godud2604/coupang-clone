@@ -1,22 +1,24 @@
 import cookies from 'js-cookie';
 
-export const getAccessToken = () => {
-  return cookies.get('accessToken');
-};
+type TokenType = 'access' | 'refresh';
 
-export const getRefreshToken = () => {
-  return cookies.get('refreshToken');
-};
+class TokenProvider {
+  static get(tokenType: TokenType) {
+    return cookies.get(tokenType);
+  }
 
-export const setAccessToken = (token: string) => {
-  cookies.set('accessToken', token, { expires: 1 });
-};
+  static set(tokenType: TokenType, token: string, expires: number) {
+    cookies.set(tokenType + 'Token', token, { expires });
+  }
 
-export const setRefreshToken = (token: string) => {
-  cookies.set('refreshToken', token, { expires: 7 });
-};
+  static hasExist(tokenType: TokenType) {
+    return !!cookies.get(tokenType);
+  }
 
-export const setAuthTokens = (accessToken: string, refreshToken: string) => {
-  setAccessToken(accessToken);
-  setRefreshToken(refreshToken);
-};
+  static clear() {
+    cookies.remove('accessToken');
+    cookies.remove('refreshToken');
+  }
+}
+
+export default TokenProvider;
