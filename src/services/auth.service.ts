@@ -1,7 +1,7 @@
 import TokenProvider from '@utils/token.util';
 import Service from './service';
 
-type SignupAgreements = {
+export type SignupAgreements = {
   privacy: boolean;
   ad:
     | {
